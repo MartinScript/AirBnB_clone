@@ -1,24 +1,31 @@
 #!/usr/bin/python3
-"""Test for the console"""
+"""Test cases for the HBNBCommand class in the console module."""
 
 import unittest
-import console
 from console import HBNBCommand
 
 
-class test_console(unittest.TestCase):
-    """class test console"""
+class TestHBNBCommand(unittest.TestCase):
+    """Test cases for the HBNBCommand class."""
 
-    def create(self):
-        """create the intance"""
-        return HBNBCommand()
+    def setUp(self):
+        """Set up the test environment."""
+        self.console = HBNBCommand()  # Create an instance of the HBNBCommand class
 
-    def test_quit(self):
-        """test for the method quit"""
-        con = self.create()
-        self.assertTrue(con.onecmd("quit"))
+    def tearDown(self):
+        """Tear down the test environment."""
+        del self.console  # Delete the instance of the HBNBCommand class after each test
 
-    def test_EOF(self):
-        """test for the method EQF"""
-        con = self.create()
-        self.assertTrue(con.onecmd("EOF"))
+    def test_quit_command(self):
+        """Test the quit command."""
+        result = self.console.onecmd("quit")  # Execute the quit command
+        self.assertTrue(result)  # Assert that the result of the command is True
+
+    def test_EOF_command(self):
+        """Test the EOF command."""
+        result = self.console.onecmd("EOF")  # Execute the EOF command
+        self.assertTrue(result)  # Assert that the result of the command is True
+
+
+if __name__ == "__main__":
+    unittest.main()

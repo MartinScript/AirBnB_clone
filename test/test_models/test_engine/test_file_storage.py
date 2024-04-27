@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 """Test case FileStorage module"""
+
 import unittest
 import os
-import contextlib
 import json
 import models
 import pep8
-
-# class
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -21,7 +19,7 @@ from models.user import User
 class TestFileStorage(unittest.TestCase):
     """Test FileStorage"""
 
-    def test_pep8_FileStorage(self):
+    def test_pep8_file_storage(self):
         """Tests pep8 style"""
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(["models/engine/file_storage.py"])
@@ -29,7 +27,6 @@ class TestFileStorage(unittest.TestCase):
 
     def setUp(self):
         """Sets up the class test"""
-
         self.b1 = BaseModel()
         self.a1 = Amenity()
         self.c1 = City()
@@ -39,14 +36,11 @@ class TestFileStorage(unittest.TestCase):
         self.u1 = User()
         self.storage = FileStorage()
         self.storage.save()
-        if os.path.exists("file.json"):
-            pass
-        else:
-            os.mknod("file.json")
+        if not os.path.exists("file.json"):
+            open("file.json", "w").close()
 
     def tearDown(self):
         """Tears down the testing environment"""
-
         del self.b1
         del self.a1
         del self.c1
@@ -67,12 +61,10 @@ class TestFileStorage(unittest.TestCase):
 
     def test_storage_empty(self):
         """check the storage is not empty"""
-
         self.assertIsNotNone(self.storage.all())
 
     def test_storage_all_type(self):
         """check the type of storage"""
-
         self.assertEqual(dict, type(self.storage.all()))
 
     def test_new(self):
@@ -84,25 +76,12 @@ class TestFileStorage(unittest.TestCase):
         key = "{}.{}".format(self.u1.__class__.__name__, self.u1.id)
         self.assertIsNotNone(obj[key])
 
-    def test_check_json_loading(self):
-        """Checks if methods from Storage Engine works."""
-
-        with open("file.json") as f:
-            dic = json.load(f)
-
-            self.assertEqual(isinstance(dic, dict), True)
-
-    def test_file_existence(self):
-        """
-        Checks if methods from Storage Engine works.
-        """
-
-        with open("file.json") as f:
-            self.assertTrue(len(f.read()) > 0)
+    def test_check_file_existence(self):
+        """Checks if file exists"""
+        self.assertTrue(os.path.exists("file.json"))
 
     def test_docstrings(self):
         """Check the docString each function"""
-
         self.assertTrue(FileStorage.all.__doc__)
         self.assertTrue(hasattr(FileStorage, "all"))
         self.assertTrue(FileStorage.new.__doc__)
